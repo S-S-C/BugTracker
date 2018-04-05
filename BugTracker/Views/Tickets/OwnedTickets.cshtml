@@ -1,0 +1,114 @@
+﻿@model IEnumerable<BugTracker.Models.Ticket>
+@{
+    ViewBag.Title = "OwnedTickets";
+}
+
+<div class="align-center" style="font-style:oblique">
+    <h3>Owners of Tickets</h3>
+    </div>
+
+    <p>
+
+        @Html.ActionLink("Tickets Index", "Index")
+
+    </p>
+    <div class=" well-lg" style=" background-color:lightgray; padding-left:15px; padding-right:15px">
+        <table id="ownedticket" class="table table-striped">
+            <thead>
+                <tr>
+                    @*<th>
+                            Assigned
+                        </th>*@
+                    <th>
+                        Owner
+                    </th>
+                    @*<th>
+                            Project @Html.DisplayNameFor(model => model.Project.Name)
+                        </th>*@
+                    <th>
+                        Priority
+                    </th>
+                    @*<th>
+                        Status
+                    </th>*@
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+
+                        @Html.DisplayNameFor(model => model.Created)
+                    </th>
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.Updated)
+                    </th>*@
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.AssignedToUser.FullName)
+                            </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OwnerUser.FullName)
+                        </td>
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.Project.Name)
+                            </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                        </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @item.Created.ToString("MMM dd yyyy")
+                        </td>
+                        @*@if (item.Updated != null)
+                        {
+                            <td>
+                                @item.Updated.Value.ToString("MMM dd yyyy")
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }*@
+
+                        @if (User.IsInRole("Submitter") || User.IsInRole("Admin"))
+                        {
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
+                            @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-xs btn-default" })*@
+                            @*@Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-xs btn-default" })*@
+                            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-xs btn-default" })*@
+                        </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @section scripts{
+        <script>
+            $('#ownedticket').DataTable();
+        </script>}

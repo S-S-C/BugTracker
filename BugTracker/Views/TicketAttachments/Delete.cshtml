@@ -1,0 +1,118 @@
+﻿@model BugTracker.Models.TicketAttachment
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div style="float:left; padding-bottom:30px; padding-right:15px">
+    <h3>Are you sure you want to delete this ticket attachment?  @*<a href="@Url.Action("Delete",new { id = Model.Id })" class="btn btn-xs btn-info"><i class="fa fa-trash"></i></a>*@</h3>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color" style="margin-top:22px">
+        <input type="submit" value="Delete" class="btn btn-primary" /> 
+        
+    </div>
+}
+@*<h3>Are you sure you want to delete this?</h3>*@
+<div>
+
+    <div class="container-fluid">
+        <div class="panel panel-default col-sm-8">
+            <div class="panel-body">
+                <p>
+                    <label>Ticket Title :</label>
+                    @Html.DisplayFor(model => model.Ticket.Title)
+                </p>
+                </br>
+                <p>
+                    <label>Attachment created date: </label>
+                    @Model.Created.ToString("MMM dd yyyy")
+                    @*@Html.DisplayFor(model => model.Created)*@
+                </p>
+                </br>
+                <p>
+                    <label>File Description: </label>
+                    @Html.DisplayFor(model => model.Description)
+
+                </p>
+                </br>
+                <p>
+                    <label>File created by: </label>
+                    @Html.DisplayFor(model => model.User.Email)
+                </p>
+                </br>
+                <p>
+                    <label>File</label>
+                    @Html.DisplayFor(model => model.FileUrl)
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    @*<h4>TicketAttachment</h4>
+        <hr />*@
+    @*<dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Ticket.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Ticket.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.User.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Created)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Created)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FileUrl)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FileUrl)
+            </dd>
+
+        </dl>*@
+    <div style="margin-left:20px">
+        <p>
+            
+                @Html.ActionLink("Back to Ticket Details", "Details", "Tickets", new { id = Model.TicketId }, new { @class = "btn btn-lg btn-success" })
+           
+        </p>
+    </div>
+
+    @*@using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }*@
+</div>

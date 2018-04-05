@@ -1,0 +1,21 @@
+﻿@model BugTracker.Models.AdminUserViewModel
+@{
+    ViewBag.Title = "AdminUserView";
+}
+
+<div class="align-center" style="font-style:oblique">
+    <h3>AdminUserView</h3>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.User.Id)
+        <p>
+            Edit Role for @Html.DisplayFor(model => model.User.FirstName)  @Html.DisplayFor(model => model.User.LastName)
+        </p>
+
+        @Html.ListBox("SelectedRoles", Model.Roles)
+        <p><input type="submit" class="btn btn-info" /></p>
+    }
+

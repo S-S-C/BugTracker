@@ -1,0 +1,89 @@
+﻿@model BugTracker.Models.TicketAttachment
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="align-center" style="font-style:oblique; padding-bottom:30px">
+    <h3>Edit Ticket Attachments</h3>
+    </div>
+
+
+    @using (Html.BeginForm("Edit", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @*<h4>TicketAttachment</h4>
+        <hr />*@
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Created)
+
+    <div class="form-group" style="padding-bottom:30px">
+        @Html.LabelFor(model => model.TicketId, "Ticket Title", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Ticket.Title)
+            @Html.HiddenFor(model => model.TicketId)
+            @*@Html.DropDownList("TicketId", null, htmlAttributes: new { @class = "form-control" })*@
+            @Html.ValidationMessageFor(model => model.TicketId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="padding-bottom:30px">
+        @Html.LabelFor(model => model.Description, "File Description", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.Created, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Created, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Created, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    <div class="form-group" style="padding-bottom:30px">
+        @Html.LabelFor(model => model.UserId, "Edited by", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.User.FullName)
+            @Html.HiddenFor(model => model.UserId)
+            @*@Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })*@
+            @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="padding-bottom:40px">
+        @Html.LabelFor(model => model.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input name="image" type="file" class="form-control" id="fileUpload" />
+            @*@Html.EditorFor(model => model.FileUrl, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FileUrl, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+
+    @*<div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>*@
+
+    <div class="form-group" style="padding-bottom:30px">
+        <div class="col-md-offset-4 col-md-4">
+            <input type="submit" value="Save" class="btn btn-block btn-primary" />
+        </div>
+    </div>
+</div>
+    }
+
+<div>
+    @Html.ActionLink("Back to Ticket Details", "Details", "Tickets", new { id = Model.TicketId }, new { @class = "btn btn-lg btn-success" })
+</div>
+    
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

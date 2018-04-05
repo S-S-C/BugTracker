@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="align-center" style="font-style:oblique">
+    <h3> User Roles</h3>
+    </div>
+    <div class=" card">
+        <div class=" well-lg" style=" background-color:lightgray; padding-left:15px">
+
+            @foreach (var mod in Model)
+            {
+
+
+                <p>@mod.User.FirstName @mod.User.LastName  @Html.ActionLink("Edit Roles", "AdminUserView", new { id = mod.User.Id }, new { @class = "btn btn-xs btn-info" })</p>
+                <p></p>
+
+                <ul>
+                    <style type="text/css">
+                        ul {
+                            list-style-type: none;
+                            padding-top: 20px
+                        }
+
+                        li {
+                            padding-bottom: 20px
+                        }
+                    </style>
+                    @foreach (var role in mod.Roles)
+                    {
+                        <li>@role</li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<BugTracker.Models.TicketAttachment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<table id="ticketattachment" class="table">
+    <thead>
+        @*@foreach (var item in Model)
+            {
+                <div class="col-12 col-md-3 col-lg-4">
+                    <article class="card">
+                        @if (item.MediaURL != null)
+                        {
+                            <img class="card-img-top" src="@Url.Content(item.MediaURL)" style="width:340px; height:300px" />
+                        }*@
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileUrl)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ticket.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @if (item.FileUrl != null)
+                    {
+                        <a href="@Url.Content(item.FileUrl)">
+                            <img src="~/Assets/images/389801.svg" style="height:20px; width:30px"/> @*<img src="~/"*@
+                        </a>
+                        @*<image class="image-responsive" src="@Url.Content(item.FileUrl)" style="width:50px; height:50px" />*@
+                    }
+                    @*@Html.DisplayFor(modelItem => item.FileUrl)*@
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $('#ticketattachment').DataTable();
+    </script>}
+@*<script>
+        $(document).ready(function () {
+            $('button.btn.dropdown-toggle.btn-default').hide();
+        });
+    </script>*@
