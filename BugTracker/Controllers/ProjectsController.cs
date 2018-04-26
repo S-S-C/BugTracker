@@ -20,11 +20,12 @@ namespace BugTracker.Controllers
        [Authorize(Roles ="Admin, ProjectManager")]
         public ActionResult Index()
         {
+            //IEnumerable<Project> projects = db.Projects.Where(p => p.IsDeleted == false).Include("Tickets").ToList();
             ProjectHelper helper = new ProjectHelper();
             //List<ProjectDetailsViewModel> pList = new List<ProjectDetailsViewModel>();
 
             List<ProjectDetailsViewModel> model = new List<ProjectDetailsViewModel>();
-                foreach(var proj in db.Projects.Include("Users").ToList())
+                foreach(var proj in db.Projects.Where(p => p.IsDeleted == false).Include("Users").ToList())
             {
                 ProjectDetailsViewModel vm = new ProjectDetailsViewModel();
                 vm.Project = proj;
@@ -42,12 +43,12 @@ namespace BugTracker.Controllers
             var user = db.Users.Find(userId);
             if (User.IsInRole("ProjectManager"))
             {
-                var model = db.Projects.Where(p => p.ProjectManagerId == userId).ToList();
+                var model = db.Projects.Where(p => p.ProjectManagerId == userId && p.IsDeleted == false).ToList();
                 return View(model);
             }
             else
             {
-                var model = db.Projects.Where(p => p.Users.Select(u => u.Id).Contains(userId)).Include("Users").ToList();
+                var model = db.Projects.Where(p => p.Users.Select(u => u.Id) .Contains(userId) /*&& p.IsDeleted == false*/).Include("Users").ToList();
                 return View(model);
                 //var allProjects = db.Projects.Where(p=>p.Tickets.Select(t => t.AssignedToUserId).Contains(userId) || p.Tickets.Select(t => t.OwnerUserId).Contains(userId)).Include("Tickets").ToList();
 
@@ -187,7 +188,8 @@ namespace BugTracker.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Project project = db.Projects.Find(id);
-            db.Projects.Remove(project);
+            //db.Projects.Remove(project);
+            project.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

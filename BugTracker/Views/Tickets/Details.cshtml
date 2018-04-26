@@ -6,432 +6,347 @@
         var db = new ApplicationDbContext();
     }*@
 
-@*<h2>Details</h2>*@
-
 <div class="align-center" style="font-style:oblique">
     <h3>Ticket Information</h3>
 </div>
 
 @*<hr />*@
-<div class="container-fluid">
-    <div class=" card">
-        <div>
-            <ul class="nav nav-pills nav-justified">
-                <li class="active"><a href="#">Ticket Details</a></li>
-                <li><a href="~/Views/TicketComments/Index.cshtml">Ticket Comments</a></li>
-                <li><a href="~/Views/Tickets/Details.cshtml">Ticket Attachments</a></li>
-                <li><a href="#">Ticket History</a></li>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="container-fluid">
+            @*<div class=" card">
+                <div>*@
+            <ul class="nav nav-tabs">
+                <li class="tab-header active"><a href="#details" data-toggle="tab">Details</a></li>
+                <li class="tab-header"><a href="#comments" data-toggle="tab">Comments</a></li>
+                <li class="tab-header"><a href="#attachments" data-toggle="tab">Attachments</a></li>
+                <li class="tab-header"><a href="#history" data-toggle="tab">Histories</a></li>
             </ul>
-        </div>
-        <div class=" well-lg" style=" background-color:lightgray; padding-left:15px; padding-right:15px">
-            @*<dl class="dl-horizontal">*@
-            <p>
-                <label>Project Name:  </label>
-                @Html.DisplayFor(model => model.Project.Name)
-            </p>
 
-            <p>
-                <label>Ticket Title: </label>
-                @Html.DisplayFor(model => model.Title)
+            @*</div>*@
+            <div class="tab-content">
+                <div class="tab-pane active well-lg" id="details" style=" background-color:lightgray; padding-left:15px; padding-right:15px">
 
-                @*@Html.DisplayNameFor(model => model.Title)*@
-            </p>
+                    <p>
+                        <label>Project Name:  </label>
+                        @Html.DisplayFor(model => model.Project.Name)
+                    </p>
 
-            @*<dd>
-                @Html.DisplayFor(model => model.Title)
-            </dd>*@
-            @*<dt>
-                @Html.DisplayNameFor(model => model.Created)
-            </dt>
+                    <p>
+                        <label>Ticket Title: </label>
+                        @Html.DisplayFor(model => model.Title)
+                    </p>
 
-            <dd>
-                @Html.DisplayFor(model => model.Created)
-            </dd>*@
-            <p>
-                <label>Ticket Description: </label>
-                @Html.DisplayFor(model => model.Description)
-                @*@Html.DisplayNameFor(model => model.Description)*@
-            </p>
-
-            @*<dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>*@
-            @*<dt>
-                Assigned To
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.AssignedToUser.FullName)
-            </dd>*@
+                    <p>
+                        <label>Ticket Description: </label>
+                        @Html.DisplayFor(model => model.Description)
+                    </p>
 
 
-            @*<dt>
-                Priority @Html.DisplayNameFor(model => model.TicketPriority.Name)
-            </dt>*@
+                    <p>
+                        <label> Ticket Type:  </label>
+                        @Html.DisplayFor(model => model.TicketType.Name)
+                    </p>
 
-            @*<dd>
-                @Html.DisplayFor(model => model.TicketPriority.Name)
-            </dd>*@
+                    <p>
+                        <label>Ticket Status </label>
+                        @Html.DisplayFor(model => model.TicketStatus.Name)
+                    </p>
 
-            @*<dt>
-                Status @Html.DisplayNameFor(model => model.TicketStatus.Name)
-            </dt>*@
+                    <p>
+                        <label>Ticket Priority: </label>
+                        @Html.DisplayFor(model => model.TicketPriority.Name)
+                    </p>
 
-            @*<dd>
-                @Html.DisplayFor(model => model.TicketStatus.Name)
-            </dd>*@
+                    <p>
+                        <label> Ticket Owned by: </label>
+                        @Html.DisplayFor(model => model.OwnerUser.FullName)
+                    </p>
 
-            <p>
-                <label> Ticket Type:  </label>
-                @Html.DisplayFor(model => model.TicketType.Name)
-
-                @*Type @Html.DisplayNameFor(model => model.TicketType.Name)*@
-            </p>
-
-            <p>
-                <label> Ticket Owned by: </label>
-                @Html.DisplayFor(model => model.OwnerUser.FullName)
-            </p>
-
-            @*<dd>
-                @Html.DisplayFor(model => model.OwnerUser.FullName)
-            </dd>*@
-            @*<dd>
-                @Html.DisplayFor(model => model.TicketType.Name)
-            </dd>*@
-
-            @*<dt>
-                @Html.DisplayNameFor(model => model.Updated)*
-            </dt>*@
-
-            @*<dd>
-                    @Html.DisplayFor(model => model.Updated)
-                </dd>
-
-            </dl>*@
-        </div>
-    </div>
-</div>
-<!--List ticket comments-->
-<div style="font-style:italic; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
-    <p>
-
-        <h5>Add ticket comments here....</h5>
-        @*@Html.ActionLink("Create Comments", "Create", "TicketComments", new { ticketId = Model.Id }, null)*@
-    </p>
-</div>
-<div class=" card">
-    <div class=" well-lg" style=" background-color:lightgray; padding-left:15px; padding-top:10px">
-        <table id="ticketcomments" class="table table-striped">
-            @*<table class="table">*@
-
-            <thead>
-                <tr>
-                    <th>
-                        Title
-                    </th>
-                    <th>
-                        Created by
-                    </th>
-                    <th>
-                        Comment
-                    </th>
-                    <th>
-                        Date
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Comments)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Ticket.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.User.FullName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Comment)
-                        </td>
-                        <td>
-                            @*@Html.DisplayFor(modelItem => item.Created)*@
-                            @item.Created.ToString("MMM dd yyyy")
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Edit","TicketComments", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
-                            <a href="@Url.Action("Delete","TicketComments", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-trash"></i></a>
-                            <a href="@Url.Action("Create", "TicketComments", new { ticketId = Model.Id })" class="btn btn-xs btn-info"><i class="fa fa-comment"></i></a>
-                            @*@Html.ActionLink("Edit", "Edit", "TicketComments", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })*@
-                            @*@Html.ActionLink("Details", "Details", "TicketComments", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })*@
-                            @*@Html.ActionLink("Delete", "Delete", "TicketComments", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })*@
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-@section scripts{
-    <script>
-        $('#ticketcomments').DataTable();
-    </script>
-    <script>
-        $('#ticketattachment').DataTable();
-    </script>
-    <script>
-        $('#history').DataTable();
-    </script>
-    <script>
-        $('#notify').DataTable();
-    </script>
-    <script>
-        $(".nav li").on("click", function () { $(".nav li").removeClass("active"); $(this).addClass("active"); });
-    </script>
-}
-
-
-<!--List Ticket Attachments-->
-
-<div style="font-style:italic; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
-    <p>
-
-        <h5>Add ticket attachments here....</h5>
-
-    </p>
-</div>
-
-@*<p>
-        @Html.ActionLink(" Create Attachments", "Create", "TicketAttachments", new { ticketId = Model.Id }, null)
-    </p>*@
-<div class=" card">
-    <div class=" well-lg" style=" background-color:lightgray; padding-left:15px; padding-top:10px">
-        <table id="ticketattachment" class="table table-striped">
-            <thead>
-                @*@foreach (var item in Model)
-                    {
-                        <div class="col-12 col-md-3 col-lg-4">
-                            <article class="card">
-                                @if (item.MediaURL != null)
-                                {
-                                    <img class="card-img-top" src="@Url.Content(item.MediaURL)" style="width:340px; height:300px" />
-                                }*@
-                <tr>
-                    <th>
-                        Title
-                    </th>
-                    <th>
-                        Created by
-                    </th>
-                    <th>
-                        Description
-                    </th>
-                    <th>
-                        Date
-                    </th>
-                    <th>
-                        FileUrl @*@Html.DisplayNameFor(model => model.FileUrl)*@
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Attachments)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Ticket.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.User.FullName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @*@Html.DisplayFor(modelItem => item.Created)*@
-                            @item.Created.ToString("MMM dd yyyy")
-                        </td>
-                        <td>
-                            @if (item.FileUrl != null)
-                            {
-                                <a href="@Url.Content(item.FileUrl)">
-                                    <img src="~/Assets/images/389801.svg" style="height:20px; width:30px" />
-                                </a>
-                            }
-                            @*@Html.DisplayFor(modelItem => item.FileUrl)*@
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Edit","TicketAttachments", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
-                            <a href="@Url.Action("Delete","TicketAttachments", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-trash"></i></a>
-                            <a href="@Url.Action("Create", "TicketAttachments", new { ticketId = Model.Id })" class="btn btn-xs btn-info"><i class="fa fa-image"></i></a>
-
-
-                            @*@Html.ActionLink("Edit", "Edit", "TicketAttachments", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })*@
-                            @*@Html.ActionLink("Details", "Details", "TicketAttachments", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })
-                                @Html.ActionLink("Delete", "Delete", "TicketAttachments", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })*@
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-
-@*@section scripts{*@
-@*<script>
-        $('#ticketattachment').DataTable();
-    </script>*@@*}*@
-
-    <!--List Ticket Histories-->
-    <div style="font-style:italic; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
-        <p>
-
-            <h5>View this ticket history here....</h5>
-
-        </p>
-    </div>
-
-    @*<p>
-            @Html.ActionLink(" Create Histories", "Create", "TicketHistories")
-        </p>*@
-    <div class=" card">
-        <div class=" well-lg" style=" background-color:lightgray; padding-left:15px">
-            <table id="history" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            Title
-                        </th>
-                        <th>
-                            Property
-                        </th>
-                        <th>
-                            Old Value
-                        </th>
-                        <th>
-                            New Value
-                        </th>
-                        <th>
-                            Date Edited
-                        </th>
-                        <th>
-                            Editor
-                        </th>
-                        @*<th></th>*@
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    @foreach (var item in Model.Histories)
-                    {
-
-                        var oldVal = "";
-                        var newVal = "";
-                        if (item.Property == "AssignedToUserId")
+                    <p>
+                        <label> Date Updated: </label>
+                        @if (Model.Updated != null)
                         {
-                            oldVal = Utilities.GetUserNameById(item.OldValue);
-                            newVal = Utilities.GetUserNameById(item.NewValue);
-
-                        }
-                        else if (item.Property == "TicketPriorityId")
-                        {
-                            oldVal = Utilities.GetPriorityById(Convert.ToInt32(item.OldValue));
-                            newVal = Utilities.GetPriorityById(Convert.ToInt32(item.NewValue));
-                        }
-                        else if (item.Property == "TicketStatusId")
-                        {
-                            oldVal = Utilities.GetStatusById(Convert.ToInt32(item.OldValue));
-                            newVal = Utilities.GetStatusById(Convert.ToInt32(item.NewValue));
+                            <td>
+                                @Model.Updated.Value.ToString("MMM dd yyyy")
+                            </td>
                         }
                         else
                         {
-                            oldVal = item.OldValue;
-                            newVal = item.NewValue;
+                            <td></td>
                         }
+                        @*<label> Date Updated: </label>
+                        @Model.Updated.Value.ToString("MMM dd yyyy")*@
+                      
+                    </p>
 
-                        <tr>
-                            <td>
-                                @item.Ticket.Title
-                            </td>
-                            <td>
-                               
-                                @Utilities.GetPropertyDisplayValue(item.Property)
-                            </td>
-                            <td>
-                                @oldVal
-                            </td>
-                            <td>
-                                @newVal
-                            </td>
-                            <td>
-                                @item.Changed.ToString("MMM dd yyyy")
-                                @*@item.Created.ToString("MMM dd yyyy")*@
-                            </td>
-                            <td>
-                                @Utilities.GetUserNameById(item.UserId)
-                            </td>
-                            @*<td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })
-                                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })
-                                </td>*@
-                        </tr>
-                    }
-                </tbody>
+                </div>
 
-            </table>
+                <!--List ticket comments-->
+                <div class="tab-pane" id="comments">
+                    <div style="font-style:italic; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+                        <p>
+                            @*<h5>Add ticket comments here....</h5>*@
+                            @Html.ActionLink("Add Comments here", "Create", "TicketComments", new { ticketId = Model.Id }, new { @class = "btn btn-md btn-info" })
+                        </p>
+                    </div>
+                    @*<div class=" card">*@
+                    @*<div class="tab-pane" id="comments">*@
+                    <div class=" well-lg" style="background-color:lightgray; padding-left:15px; padding-top:10px">
+                        <table id="ticketcomments" class="table table-striped">
+                            @*<table class="table">*@
+
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Title
+                                    </th>
+                                    <th>
+                                        Created by
+                                    </th>
+                                    <th>
+                                        Comment
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Comments)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Ticket.Title)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.User.FullName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Comment)
+                                        </td>
+                                        <td>
+                                            @*@Html.DisplayFor(modelItem => item.Created)*@
+                                            @item.Created.ToString("MMM dd yyyy")
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Edit","TicketComments", new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" title="Edit Ticket Comments"><i class="fa fa-edit"></i></a>
+                                            @*<a href="@Url.Action("Delete","TicketComments", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-trash"></i></a>*@
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                @section scripts{
+                    <script>
+                        $(document).ready(function () {
+                            $('#ticketcomments').DataTable();
+                            $('#ticketattachment').DataTable();
+                            $('#history').DataTable();
+                            $('#notify').DataTable();
+
+                        });
+                    </script>
+                }
+
+
+                <!--List Ticket Attachments-->
+                <div class="tab-pane" id="attachments">
+                    <div style="font-style:italic; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+                        <p>
+                            @Html.ActionLink("Add Attachments here", "Create", "TicketAttachments", new { ticketId = Model.Id }, new { @class = "btn btn-md btn-info" })
+                        </p>
+                    </div>
+
+                    @*<div class="tab-pane" id="attachments">*@
+                    <div class=" well-lg" style=" background-color:lightgray; padding-left:15px; padding-top:10px">
+                        <table id="ticketattachment" class="table table-striped">
+                            <thead>
+
+                                <tr>
+                                    <th>
+                                        Title
+                                    </th>
+                                    <th>
+                                        Created by
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        FileUrl
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Attachments)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Ticket.Title)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.User.FullName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td>
+                                            @item.Created.ToString("MMM dd yyyy")
+                                        </td>
+                                        <td>
+                                            @if (item.FileUrl != null)
+                                            {
+                                                <a href="@Url.Content(item.FileUrl)">
+                                                    <img src="~/Assets/images/389801.svg" style="height:20px; width:30px" />
+                                                </a>
+                                            }
+                                            @*@Html.DisplayFor(modelItem => item.FileUrl)*@
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Edit","TicketAttachments", new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" title="Edit Ticket Attachment"><i class="fa fa-edit"></i></a>
+                                            @*<a href="@Url.Action("Delete","TicketAttachments", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-trash"></i></a>*@
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <!--List Ticket Histories-->
+                <div class="tab-pane" id="history">
+                    <div style="font-style:italic; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+                        <p>
+                            <h5>View this ticket history here....</h5>
+                        </p>
+                    </div>
+
+                    @*<div class=" card">*@
+                    @*<div class="tab-pane" id="history">*@
+                    <div class=" well-lg" style=" background-color:lightgray; padding-left:15px">
+                        <table id="history" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Title
+                                    </th>
+                                    <th>
+                                        Property
+                                    </th>
+                                    <th>
+                                        Old Value
+                                    </th>
+                                    <th>
+                                        New Value
+                                    </th>
+                                    <th>
+                                        Date Edited
+                                    </th>
+                                    <th>
+                                        Editor
+                                    </th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var item in Model.Histories)
+                                {
+
+                                    var oldVal = "";
+                                    var newVal = "";
+                                    if (item.Property == "AssignedToUserId")
+                                    {
+                                        oldVal = Utilities.GetUserNameById(item.OldValue);
+                                        newVal = Utilities.GetUserNameById(item.NewValue);
+
+                                    }
+                                    else if (item.Property == "TicketPriorityId")
+                                    {
+                                        oldVal = Utilities.GetPriorityById(Convert.ToInt32(item.OldValue));
+                                        newVal = Utilities.GetPriorityById(Convert.ToInt32(item.NewValue));
+                                    }
+                                    else if (item.Property == "TicketStatusId")
+                                    {
+                                        oldVal = Utilities.GetStatusById(Convert.ToInt32(item.OldValue));
+                                        newVal = Utilities.GetStatusById(Convert.ToInt32(item.NewValue));
+                                    }
+                                    else
+                                    {
+                                        oldVal = item.OldValue;
+                                        newVal = item.NewValue;
+                                    }
+
+                                    <tr>
+                                        <td>
+                                            @item.Ticket.Title
+                                        </td>
+                                        <td>
+
+                                            @Utilities.GetPropertyDisplayValue(item.Property)
+                                        </td>
+                                        <td>
+                                            @oldVal
+                                        </td>
+                                        <td>
+                                            @newVal
+                                        </td>
+                                        <td>
+                                            @item.Changed.ToString("MMM dd yyyy")
+                                            @*@item.Created.ToString("MMM dd yyyy")*@
+                                        </td>
+                                        <td>
+                                            @Utilities.GetUserNameById(item.UserId)
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
     </div>
+</div>
 
-    <!--Ticket Notificatons-->
-    @*<p>
-        @Html.ActionLink(" Create Notifications", "Create", "TicketNotifications")
-    </p>
+<div id="projIndex_btnWrap">
+    <div style="float:left">
 
-    <div class=" card">
-        <div class=" well-lg" style=" background-color:lightsteelblue; padding-left:15px">
+        <p class="align-left">
+            @Html.ActionLink("Go To My Tickets", "MyTickets", "Tickets", new { id = Model.Id }, new { @class = "btn btn-lg btn-success" })
 
-            <table id="notify" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>*@
-                            @*Title*@ @*@Html.DisplayNameFor(model => model.Ticket.Title)*@
-                        @*</th>*@
-                        @*<th>*@
-                            @*Email*@@*@Html.DisplayNameFor(model => model.User.Email)*@
-                        @*</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>*@
-
-                    @*@foreach (var item in Model.Notifications)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Ticket.Title)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User.Email)
-                            </td>
-                            <td>*@
-                                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })*@
-                                @*@Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })*@
-                            @*</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        </p>
+    </div>
+    @if ((User.IsInRole("ProjectManager")))
+    {
+        <div style="float:right">
+            @Html.ActionLink("Go to My Projects", "MyProjects", "Projects", null, new { @class = "btn btn-lg btn-success" })
         </div>
-    </div>*@
+    }
+    <div style="clear:both"></div>
+</div>
 
 
 
-    <p>
-        @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-lg btn-primary" }) |*@
-        @Html.ActionLink("Back To All Tickets", "Index", new { id = Model.Id }, new { @class = "btn btn-lg btn-success" })
-    </p>
+
+
+
+
+

@@ -8,9 +8,7 @@
 </div>
 
 <div style="float:right">
-    <p>
-        @* @Html.ActionLink("Create New", "Create")*@
-    </p>
+    
     @if (User.IsInRole("Admin"))
     {
         <p>
@@ -29,24 +27,14 @@
     }
 
 </div>
-@*<p>@Html.ActionLink("MyProjects", "Projects")</p>*@
-@*}*@
-@*else
-     if (User.IsInRole("Developer"))
-    {
-        <p>@Html.ActionLink("MyProjects", "Projects")</p>
-    }*@
+
 
 <div class=" well well-sm col-sm-12" style=" background-color:lightgray; padding-left:15px; padding-right:15px; padding-top:20px">
     <table id="myproject" class="table table-striped">
         <thead>
             <tr>
                 <th>
-
-                    @*<p>*@
-                    Project @*@Html.DisplayNameFor(model => model.Name)*@
-
-                    @*</p>*@
+                    Project 
                 </th>
                 <th>
                     Assigned Users
@@ -78,21 +66,17 @@
 
                     <td>
 
-                        @*var userId = User.Identity.GetUserId();*@
-
-                        @if ((User.IsInRole("Admin") || User.IsInRole("ProjectManager")))
+                        @if ((User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer")))
                         {
-                            <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
-                            <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-list"></i></a>
-                            <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-trash"></i></a>
-                            <a href="@Url.Action("Create", "Tickets", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-ticket"></i></a>
-                            @*@Html.ActionLink("Add Ticket", "Create", "Tickets", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" })*@
+                            <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" titl e="Edit Project"><i class="fa fa-edit"></i></a>
+                            <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" title="Project Detail"><i class="fa fa-list"></i></a>
+                            
 
                         }
                         else if (User.IsInRole("Submitter"))
                         {
-                            <a href="@Url.Action("Create", "Tickets", new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-ticket"></i></a>
-                            @*@Html.ActionLink("Add Ticket", "Create", "Tickets", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" })*@
+                            <a href="@Url.Action("Create", "Tickets", new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" title="Create Ticket"><i class="fa fa-ticket"></i></a>
+                            
 
                         }
                         else
@@ -100,9 +84,8 @@
 
                         }
 
-                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })*@
+                        
+                        </td>
                 </tr>
             }
 

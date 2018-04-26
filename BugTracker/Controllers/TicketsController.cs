@@ -37,7 +37,7 @@ namespace BugTracker.Controllers
             var user = db.Users.Find(userid);
             if (User.IsInRole("ProjectManager"))
             {
-                var model = db.Tickets.Where(p => p.Project.ProjectManagerId == userid).ToList();
+                var model = db.Tickets.Where(p => p.Project.ProjectManagerId == userid && p.IsDeleted == false).ToList();
                 return View(model);
             }
             else
@@ -97,17 +97,22 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AssignTicket(Ticket model)
         {
-            var ticket = db.Tickets.Find(model.Id); ticket.AssignedToUserId = model.AssignedToUserId;
+            var ticket = db.Tickets.Find(model.Id);
+            ticket.AssignedToUserId = model.AssignedToUserId;
 
             db.SaveChanges();
 
-            var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme); try
+            var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
+            try
             {
-                EmailService ems = new EmailService(); IdentityMessage msg = new IdentityMessage(); ApplicationUser user = new ApplicationUser();
+                EmailService ems = new EmailService();
+                IdentityMessage msg = new IdentityMessage();
+                ApplicationUser user = db.Users.Find(model.AssignedToUserId);
 
                 msg.Body = "You have been assigned a new Ticket." + Environment.NewLine + "Please click the following link to view the details" + "<a href=\"" + callbackUrl + "\">NEW TICKET</a>";
 
-                msg.Destination = user.Email; msg.Subject = "Invite to Household";
+                msg.Destination = user.Email;
+                msg.Subject = "Ticket Assigned";
 
                 await ems.SendMailAsync(msg);
             }
@@ -236,7 +241,7 @@ namespace BugTracker.Controllers
 
             if (ModelState.IsValid)
             {
-                //ticket.Updated = DateTimeOffset.Now;
+                ticket.Updated = DateTimeOffset.Now;
                 var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
                 foreach (var prop in typeof(Ticket).GetProperties())

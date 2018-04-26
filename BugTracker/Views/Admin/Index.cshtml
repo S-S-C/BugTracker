@@ -5,34 +5,56 @@
 
 <div class="align-center" style="font-style:oblique">
     <h3> User Roles</h3>
-    </div>
-    <div class=" card">
-        <div class=" well-lg" style=" background-color:lightgray; padding-left:15px">
+</div>
 
+<div class=" well-lg" style="background-color:lightgray; padding-left:15px; padding-top:10px">
+    <table id="adminindex" class="table table-striped">
+
+        <thead>
+            <tr>
+                <th>
+                    User Name
+                </th>
+                <th>
+                    Roles Assigned
+                </th>
+                <th>
+                    Action
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
             @foreach (var mod in Model)
             {
+                <tr>
+                    <td>
+                        @mod.User.FirstName @mod.User.LastName 
+                    </td>
+                    <td>
+                        <ul>
+                            @foreach (var role in mod.Roles)
+                            {
+                                <li>@role</li>
+                            }
+                           
+                        </ul>
+                    </td>
 
-
-                <p>@mod.User.FirstName @mod.User.LastName  @Html.ActionLink("Edit Roles", "AdminUserView", new { id = mod.User.Id }, new { @class = "btn btn-xs btn-info" })</p>
-                <p></p>
-
-                <ul>
-                    <style type="text/css">
-                        ul {
-                            list-style-type: none;
-                            padding-top: 20px
-                        }
-
-                        li {
-                            padding-bottom: 20px
-                        }
-                    </style>
-                    @foreach (var role in mod.Roles)
-                    {
-                        <li>@role</li>
-                    }
-                </ul>
+                    <td>
+                        @Html.ActionLink("Edit Roles", "AdminUserView", new { id = mod.User.Id }, new { @class = "btn btn-xs btn-info" })
+                    </td>
+                </tr>
             }
-        </div>
-    </div>
+        </tbody>
+    </table>
+</div>
 
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#adminindex').DataTable();
+        }
+    </script>
+}

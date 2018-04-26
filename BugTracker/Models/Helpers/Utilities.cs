@@ -8,7 +8,7 @@ namespace BugTracker.Models.Helpers
 {
     
 
-    //We want to change information from displaying primary kets to more readable data
+    //We want to change information from displaying primary keys to more readable data
     public class Utilities
     {
         public static Dictionary<string, string> PropDisplayValues = new Dictionary<string, string>()
@@ -21,8 +21,9 @@ namespace BugTracker.Models.Helpers
 
 
         private static ApplicationDbContext db = new ApplicationDbContext();
-        
-        //Method that takes in a user by Id and returns the full name
+
+        //Ticket history
+        //Method that takes in a user by Id and returns the full name 
         public static string GetUserNameById (string userId)
         {
             return db.Users.FirstOrDefault(u => u.Id == userId).FullName;

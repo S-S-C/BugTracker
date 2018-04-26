@@ -83,7 +83,7 @@ namespace BugTracker.Controllers
                     ticketAttachment.Created = DateTimeOffset.Now;
                     db.TicketAttachments.Add(ticketAttachment);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    //return RedirectToAction("Index");
 
                 }
 
@@ -159,7 +159,8 @@ namespace BugTracker.Controllers
                 ticketAttachment.Created = DateTimeOffset.Now;
                 db.Entry(ticketAttachment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketAttachment.TicketId);

@@ -7,73 +7,12 @@
 <div class="align-center" style="font-style:oblique">
     <h2>Project Details</h2>
 </div>
-@*<hr />*@
 
-
-@*<p>
-        @Html.ActionLink("Create Tickets", "Create", "Tickets", new { id = Model.Project.Id }, null)
-    </p>*@
-
-@*@Html.ActionLink("Create New", "Create")*@
-
+<!--Project Details-->
 <div class="container-fluid">
     <div class="card">
         <div class=" well well-lg" style=" background-color:lightgray; padding-left:15px; padding-right:15px">
-            @*<table id="projdetail" class="table table-striped">
 
-                <thead>
-                    <tr>
-                        <th>
-                            Project
-                        </th>
-                        <th>
-                             Manager
-                        </th>
-                        <th>
-                            Assigned Users
-                        </th>
-                        <th>
-                            Action
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => model.Project.Name)
-                            @Html.DisplayFor(m => m.Project.Name)
-                        @*</td>
-                        <td>*@
-            @*Project Manager:*@
-
-            @*@if (Model.ProjectManager == null)
-                {
-
-                }
-                else
-                {
-
-                    @Model.ProjectManager.FullName
-
-                }*@
-            @*@foreach (var usr in item.ProjectManagerId)
-                {
-                    @usr.ProjectManager
-                }*@
-            @*@Html.DisplayFor(modelItem => item.ProjectManager)*@
-            @*</td>
-                <td>
-                    @foreach (var usr in Model.Project.Users)
-                    {
-                        <ul>
-                            <li>
-                                @usr.FirstName @usr.LastName
-                            </li>
-                        </ul>
-                    }*@
-
-            @*</td>*@
             <p>
                 <label>Project : </label>
 
@@ -108,29 +47,28 @@
                 }
             </p>
 
+            <p>
+                @if ((User.IsInRole("Admin")))
+                {
 
+                    <a href="@Url.Action("Edit", new { id = Model.Project.Id })" class="btn btn-xs btn-info">@*<i class="fa fa-edit"></i>*@ Assign PM</a>
+                    <a href="@Url.Action("EditUsers", new { id = Model.Project.Id })" class="btn btn-xs btn-info">@*<i class="fa fa-user"></i>*@Assign Users</a>
+                    <a href="@Url.Action("AssignTicket", "Tickets", new { id = Model.Project.Id })" class="btn btn-xs btn-info">@*<i class="fa fa-ticket"></i>*@Assign Ticket</a>
 
-            @*<td>*@
-            <a href="@Url.Action("Edit",new { id = Model.Project.Id })" class="btn btn-xs btn-info">@*<i class="fa fa-edit"></i>*@ Assign PM</a>
-            <a href="@Url.Action("EditUsers",new { id = Model.Project.Id })" class="btn btn-xs btn-info">@*<i class="fa fa-user"></i>*@Assign Users</a>
-            <a href="@Url.Action("Create","Tickets", new { id = Model.Project.Id })" class="btn btn-xs btn-info">@*<i class="fa fa-ticket"></i>*@Assign Ticket</a>
-            @*@Html.ActionLink("Create", "Tickets", new { id = Model.Project.Id }, new { @class = "btn btn-xs btn-info fa fa-ticket"})*@
-            @*@Html.ActionLink("Edit", "Edit", new { id = Model.Project.Id }, new { @class = "btn btn-xs btn-info" })
-                @Html.ActionLink("Edit Users", "EditUsers", "Projects", new { id = Model.Project.Id }, new { @class = "btn btn-xs btn-info" })*@
+                }
+                else if ((User.IsInRole("ProjectManager")))
+                {
+                    <a href="@Url.Action("EditUsers", new { id = Model.Project.Id })" class="btn btn-xs btn-info">@*<i class="fa fa-user"></i>*@Assign Users</a>
+                    <a href="@Url.Action("AssignTicket", "Tickets", new { id = Model.Project.Id })" class="btn btn-xs btn-info">@*<i class="fa fa-ticket"></i>*@Assign Ticket</a>
+                }
+            </p>
 
-            @*@Html.ActionLink("Details", "Details", new { id = Model.User.Id})*@
-            @*@Html.ActionLink("Delete", "Delete", new { id = Model.User.Id)*@
-
-            @*</td>
-                </tr>
-                }*@
-            @*</tbody>
-                </table>*@
         </div>
     </div>
 </div>
 
-@section scripts{
+@section scripts
+{
     <script>
         $('#projdetail').DataTable();
     </script>
@@ -138,63 +76,24 @@
         $('#tickets').DataTable();
     </script>}
 
-
-
-<!--Project Details-->
-@*<h5>
-        Project Name: @Html.DisplayFor(m => m.Project.Name)
-    </h5>
-    <div class="row">
-             @Html.DisplayNameFor(model => model.Project.Name)
-        </div>
-    <div class="row">
-        Project Manager:
-        @if (Model.ProjectManager == null)
-        {
-
-        }
-        else
-        {
-
-            @Model.ProjectManager.FullName
-
-        }
-    </div>*@
-
-<!--List of Users for Project-->
-@*<div class="row">
-        Users Assigned to Project:
-        @foreach (var usr in Model.Project.Users)
-
-        {
-            <ul>
-                <li>@usr.FirstName  @usr.LastName</li>
-            </ul>
-        }
-
-    </div>*@
-
-
 <!--List of Tickets for Project-->
 <div class="align-center" style="font-style:oblique">
-    <h5>Tickets </h5>
+    <h5>Tickets</h5>
 </div>
 <div class=" well well-sm col-sm-12" style=" background-color:lightgray; padding-left:15px; padding-right:15px">
     <table id="tickets" class="table table-striped">
 
         <thead>
             <tr>
-                @*<th>
-                        Assigned
 
-                    </th>*@
-                @*<th>
-                        Owner
-
-                    </th>*@
                 <th>
                     Project
                 </th>
+                <th>
+                    Assigned
+
+                </th>
+
                 <th>
                     Priority
                 </th>
@@ -207,91 +106,67 @@
                 <th>
                     Title
                 </th>
-                @*<th>
-                        Description
-                    </th>*@
+
                 <th>
                     Created
                 </th>
-                @*<th>
-                        Updated
-                    </th>*@
-                <th></th>
+
+                <th>
+                    Action
+                </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Project.Tickets)
             {
-                <tr>
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.AssignedToUser.FullName)
-                        </td>*@
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.OwnerUser.FullName)
-                        </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Project.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketType.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>*@
-                    <td>
-                        @*@Html.DisplayFor(modelItem => item.Created)*@
-                        @item.Created.ToString("MMM dd yyyy")
-                    </td>
-                    @*@if (item.Updated != null)
-                        {
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Updated)
-                                @item.Updated.Value.ToString("MMM dd yyyy")
-                            </td>
-                        }*@
-                    @*else
-                        {
-                            <td></td>
-                        }*@
-                    <td>
-                        @{
-                            var userId = User.Identity.GetUserId();
-                            if ((User.IsInRole("Admin") || User.IsInRole("ProjectManager")) || (item.AssignedToUserId == userId || item.OwnerUserId == userId))
-                            {
+            <tr>
 
-                                @*<a href="@Url.Action("AssignTicket",new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-child"></i></a>*@
-                                <a href="@Url.Action("Edit",new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
-                                <a href="@Url.Action("Details",new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-list"></i></a>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssignedToUser.FullName)
+                </td>
 
-                                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })
-                                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
 
-                            }
+                <td>
+                    @item.Created.ToString("MMM dd yyyy")
+                </td>
 
-                        }
-                    </td>
-                </tr>
+                <td>
+                    @{
+            var userId = User.Identity.GetUserId();
+            if ((User.IsInRole("Admin") || User.IsInRole("ProjectManager")) || (item.AssignedToUserId == userId || item.OwnerUserId == userId))
+            {
+
+                <a href="@Url.Action("Edit", "Tickets", new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" title="Edit Ticket">
+                    <i class="fa fa-edit"></i>
+                </a>
+                <a href="@Url.Action("Details", "Tickets", new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" title="Ticket Details"><i class="fa fa-list"></i></a>
+
+
+}
+
+                    }
+                </td>
+            </tr>
             }
         </tbody>
     </table>
 </div>
-@*@section scripts{
-    <script>
-        $('#tickets').DataTable();
-    </script>}*@
-
 
 <p>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
     @Html.ActionLink("Back to All Projects", "Index", new { id = Model.Project.Id }, new { @class = "btn btn-lg btn-success" })
 </p>

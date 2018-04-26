@@ -3896,6 +3896,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <None Include="Properties\PublishProfiles\SKBugTracker - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -3916,11 +3917,18 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Uploads\anders-jilden-307322-unsplash.jpg" />
+    <Content Include="Uploads\IMG_6044 %281%29.jpg" />
     <Content Include="Uploads\mainblogpic.jpeg" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Uploads\nordwood-themes-166423-unsplash.jpg" />
+    <Content Include="Uploads\pexels-photo-839443.jpeg" />
+    <Content Include="Uploads\sarah-crutchfield-549-unsplash.jpg" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -4020,6 +4028,11 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\IndexView.cshtml" />
+    <Content Include="Uploads\Assigning Roles to Users.pdf" />
+    <Content Include="Uploads\BlogPostsControllerWalkthrough.pdf" />
+    <Content Include="Uploads\DbContext in Entity Framework.pdf" />
+    <Content Include="Uploads\Full Text Search.docx" />
+    <Content Include="Uploads\Password Recovery and Management %28Needs Update%29.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -54,7 +54,7 @@ namespace BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        //[Authorize]
         public ActionResult Create([Bind(Include = "Comment,TicketId")] TicketComment ticketComment)
         {
             var FullName = User.Identity.GetUserId();
@@ -78,6 +78,7 @@ namespace BugTracker.Controllers
                     msg.Destination = user.Email;
                     msg.Subject = "New Comment";
                     //await ems.SendMailAsync(msg);
+                    ems.Send(msg);
                 }
                 catch (Exception ex)
                 {
@@ -133,7 +134,8 @@ namespace BugTracker.Controllers
 
                 db.Entry(ticketComment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId });
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "Email", ticketComment.FullName);

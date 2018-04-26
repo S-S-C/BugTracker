@@ -1,42 +1,47 @@
 ﻿@model BugTracker.Models.Ticket
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "AssignTicket";
 }
 
-@*<h2>AssignTicket</h2>*@
-<h2>Edit</h2>
+@*<h2>Assign Ticket</h2>*@
+
+<div class="align-center" style="font-style:oblique">
+    <h3>Assign Users To Tickets</h3>
+</div>
 
 @using (Html.BeginForm("AssignTicket", "Tickets", FormMethod.Post))
-{@Html.AntiForgeryToken() 
-    <div class="form-horizontal">
-    <h4>Ticket</h4>         
-    <hr />     
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })     
+{@Html.AntiForgeryToken()
+<div class="form-horizontal">
+    @*<h4>Ticket</h4>
+        <hr />*@
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
 
 
-    <div class="form-group">            
-        @Html.LabelFor(model => model.AssignedToUserId, "Assign Developer", 
-       new { @class = "control-label col-md-2" })           
-        <div class="col-md-10">                
-        @Html.DropDownList("AssignedToUserId", null, new { @class = "form-control" })     
-        @Html.ValidationMessageFor(model => model.AssignedToUserId, "", 
-       new { @class = "text-danger" })            
-            </div>      
+    <div class="form-group" style="padding-top:20px; padding-bottom:30px">
+        @Html.LabelFor(model => model.AssignedToUserId, "Assign Developer",
+                      new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.DropDownList("AssignedToUserId", null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.AssignedToUserId, "",
+                          new { @class = "text-danger" })
+        </div>
     </div>
 
-    <div class="form-group">       
-        <div class="col-md-offset-2 col-md-10">       
-        <input type="submit" value="Save" class="btn btn-default" />            
-            </div>      
+    <div class="form-group" style="padding-bottom:30px">
+        <div class="col-md-offset-4 col-md-4">
+            <input type="submit" value="Save" class="btn btn-block btn-primary" />
+        </div>
     </div>
+
 </div>
 }
 
-<div>    
-    @Html.ActionLink("Back to List", "Index") 
+<div style="padding-top:20px">
+    @Html.ActionLink("Go to All Tickets", "Index", null, new { @class = "btn btn-lg btn-success" })
 </div>
 
-@section Scripts {   
+
+@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

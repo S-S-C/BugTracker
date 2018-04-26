@@ -19,7 +19,7 @@ namespace BugTracker.Models
                 return false;
 
             string ext = Path.GetExtension(file.FileName);
-            if (ext.Equals(".pdf"))
+            if (ext.Equals(".pdf") || ext.Equals(".docx"))
                 return true;
             try
             {

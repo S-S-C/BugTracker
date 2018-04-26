@@ -7,10 +7,7 @@
 <div class="align-center" style="font-style:oblique">
     <h3>My Tickets</h3>
     </div>
-    @*<hr />*@
-    <p>
-        @Html.ActionLink("Back to All Tickets", "Index")
-    </p>
+    
     <div class=" well-lg" style=" background-color:lightgray; padding-left:15px; padding-right:15px">
         <table id="myticket" class="table table-striped" style="width:100%">
             <thead>
@@ -18,9 +15,7 @@
                     @*<th>
                             Assigned
                         </th>*@
-                    @*<th>
-                            Owner
-                        </th>*@
+                   
                     <th>
                         Project
                     </th>
@@ -43,10 +38,10 @@
 
                         @Html.DisplayNameFor(model => model.Created)
                     </th>
-                    @*<th>
-                            @Html.DisplayNameFor(model => model.Updated)
-                        </th>*@
-                    <th></th>
+ 
+                    <th>
+                        Action
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -56,9 +51,7 @@
                         @*<td>
                                 @Html.DisplayFor(modelItem => item.AssignedToUser.FullName)
                             </td>*@
-                        @*<td>
-                                @Html.DisplayFor(modelItem => item.OwnerUser.FullName)
-                            </td>*@
+                        
                         <td>
                             @Html.DisplayFor(modelItem => item.Project.Name)
                         </td>
@@ -80,29 +73,15 @@
                         <td>
                             @item.Created.ToString("MMM dd yyyy")
                         </td>
-                        @*@if (item.Updated != null)
-                            {
-                                <td>
-                                    @item.Updated.Value.ToString("MMM dd yyyy")
-                                </td>
-                            }
-                            else
-                            {
-                                <td></td>
-                            }*@
+                        
                         @{
                             var userId = User.Identity.GetUserId();
                             if ((User.IsInRole("Admin") || User.IsInRole("ProjectManager")) || (item.AssignedToUserId == userId || item.OwnerUserId == userId))
                             {
                                 <td>
-                                    <a href="@Url.Action("Edit",new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
-                                    <a href="@Url.Action("Details",new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-list"></i></a>
-                                    <a href="@Url.Action("Delete",new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-trash"></i></a>
-                                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-xs btn-default" })
-                                        @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-xs btn-default" })
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-xs btn-default" })*@
-                                    @*@Html.ActionLink("Create", "Create", "TicketAttachments", new { id = item.Id }) |
-                                        @Html.ActionLink("Create", "Create", "TicketComments", new { id = item.Id })*@
+                                    <a href="@Url.Action("Edit",new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" title="Edit Ticket"><i class="fa fa-edit"></i></a>
+                                    <a href="@Url.Action("Details",new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" title="Ticket Detail"><i class="fa fa-list"></i></a>
+                                   
                                 </td>
                             }
                         }
@@ -112,12 +91,12 @@
         </table>
     </div>
 
+    <div style="padding-top:20px">
+        @Html.ActionLink("Go to All Tickets", "Index", null, new { @class = "btn btn-lg btn-success" })
+    </div>
+
     @section scripts{
         <script>
             $('#myticket').DataTable();
         </script>}
-    @*<script>
-            $(document).ready(function () {
-                $('button.btn.dropdown-toggle.btn-default').hide();
-            });
-        </script>*@
+ 

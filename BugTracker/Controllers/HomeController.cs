@@ -13,13 +13,14 @@ namespace BugTracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult Index()
+        //public ActionResult Index()
+            public ActionResult IndexView()
         {
             var userid = User.Identity.GetUserId();
             //List<DashboardViewModel> dvm = new List<DashboardViewModel>();
             var projects = db.Projects.Where(p => p.Users.Any(u => u.Id == userid)).ToList();
-            var tickets = db.Tickets.Where(u => u.OwnerUserId == userid || u.AssignedToUserId == userid || u.Project.ProjectManagerId == userid)
-                .Include(t => t.AssignedToUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType).ToList();
+            var tickets = db.Tickets.Where(u => u.OwnerUserId == userid || u.AssignedToUserId == userid || u.Project.ProjectManagerId == userid).OrderByDescending(t => t.Created)
+                .Include(t => t.AssignedToUser).Include(t => t.OwnerUser).Include(t => t.Project).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType).Take(10).ToList();
             var notifications = db.TicketNotifications.Where(u => u.UserId == userid).ToList();
             
             DashboardViewModel dvm = new DashboardViewModel()
@@ -28,13 +29,19 @@ namespace BugTracker.Controllers
                 Tickets = tickets,
                 Notifications = notifications
             };
-            return View("IndexView", dvm);
+            //return View("IndexView", dvm);
+            return View( dvm);
+        }
+        public ActionResult Index()
+        {
+            return RedirectToAction("IndexView");
         }
 
-        public ActionResult IndexView()
-        {
-            return RedirectToAction("Index");
-        }
+
+        //public ActionResult IndexView()
+        //{
+        //    return RedirectToAction("Index");
+        //}
 
         public ActionResult LandingPage()
         {

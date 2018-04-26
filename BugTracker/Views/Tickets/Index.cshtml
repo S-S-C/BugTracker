@@ -3,268 +3,172 @@
 
 <div class="align-center" style="font-style:oblique">
     <h3>All Tickets</h3>
-    </div>
+</div>
 
-<p>
-   <div style="margin-left:200px; margin-right:200px; padding-top:20px; padding-bottom:20px">
-    @Html.ActionLink("My Tickets", "MyTickets", "Tickets", null, new { @class = "btn btn-lg btn-block btn-info" })
-    </div>
-</p>
+@if ((User.IsInRole("Admin")) || (User.IsInRole("ProjectManager")) || (User.IsInRole("Developer")))
+{
+    <p>
+        <div style="margin-left:200px; margin-right:200px; padding-top:20px; padding-bottom:20px">
+            @Html.ActionLink("My Tickets", "MyTickets", "Tickets", null, new { @class = "btn btn-lg btn-block btn-info" })
+        </div>
+    </p>
+}
 
 
-    @*<div class="row clearfix">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="card">
-                <div class="header">
-                    <h2>
-                        TICKETS INDEX
-                    </h2>
-                    <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);">Action</a></li>
-                                <li><a href="javascript:void(0);">Another action</a></li>
-                                <li><a href="javascript:void(0);">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="body">
-                    <div class="table-responsive">*@
-    @*<div class="col-sm-12" style="background-color:lightgray">*@
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        @*<div class="card" >*@
+    @*<div class="card" >*@
 
-        <div class=" well well-sm col-sm-12" style=" background-color:lightgray; padding-left:15px; padding-right:15px">
+    <div class=" well well-sm col-sm-12" style=" background-color:lightgray; padding-left:15px; padding-right:15px">
 
-            <table id="tickets" class="table table-striped" style="table-layout:fixed">
-                <thead>
+        <table id="tickets" class="table table-striped" style="table-layout:fixed">
+            <thead>
+                <tr>
+                    <th>
+                        Title
+                    </th>
+
+
+                    <th>
+                        Date
+                    </th>
+                    
+                   
+                    <th>
+                        Priority
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Project 
+                    </th>
+                    <th>
+                        Assigned User
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
                     <tr>
-                        <th>
-                            Title
-                        </th>
-
-
-                        <th>
-                            Date
-                        </th>
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.Description)
-                        </th>*@
-
-                        @*<th>
-                            Type
-                        </th>*@
-
-                        @*<th>
-                            Owned by
-                        </th>*@
-                        <th>
-                            Priority
-                        </th>
-                        <th>
-                            Status
-                        </th>
-                        <th>
-                            Project @*@Html.DisplayNameFor(model => model.Project.Name)*@
-                        </th>
-                        <th>
-                            Assigned User
-                        </th>
-                        <th>
-                            Action
-                        </th>
-
-                        @*<th>
-                                @Html.DisplayNameFor(model => model.Updated)
-                            </th>*@
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @item.Created.ToString("MMM dd yyyy")
+                        </td>
+                       
+                        @if (item.TicketPriority.Name == "Urgent")
+                        {
                             <td>
-                                @*<div class="dropdown">
-                                        <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">Title<span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href=" @Html.DisplayFor(modelItem => item.Title)">Title</a></li>
-                                            <li><a href="@item.Created.ToString("MMM dd yyyy")">Date</a></li>
-                                            <li><a href="#">Description</a></li>
-                                            <li><a href="#">Type</a></li>
 
-                                        </ul>
-                                    </div>*@
-
-                                @Html.DisplayFor(modelItem => item.Title)
-                                @*<div class="dropdown">
-                                        <div class=" dropdown-toggle" data-toggle="dropdown">Title<span class="caret"></span></div>
-                                        <ul class="dropdown-menu">
-                                            <li><a href=" @Html.DisplayFor(modelItem => item.Title)">Title</a></li>
-                                            <li><a href="@item.Created.ToString("MMM dd yyyy")">Date</a></li>
-                                            <li><a href=" @Html.DisplayFor(modelItem => item.Description)">Description</a></li>
-                                            <li><a href="#">Type</a></li>
-
-                                        </ul>
-
-                                    </div>*@
+                                <label class="label label-warning">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</label>
 
                             </td>
+                        }
+                        else if (item.TicketPriority.Name == "High")
+                        {
                             <td>
-                                @*@Html.DisplayFor(modelItem => item.Created)*@
-                                @item.Created.ToString("MMM dd yyyy")
+                                <label class="label label-danger">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</label>
                             </td>
-                            @*<td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
+                        }
+                        else if (item.TicketPriority.Name == "Medium")
+                        {
                             <td>
-                                @Html.DisplayFor(modelItem => item.TicketType.Name)
-                            </td>*@
-                            @*<td>
-                                @Html.DisplayFor(modelItem => item.OwnerUser.FullName)
-                            </td>*@
-
-                            @if (item.TicketPriority.Name == "Urgent")
-                            {
-                                <td>
-
-                                    <label class="label label-warning">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</label>
-
-                                </td>
-                            }
-                            else if (item.TicketPriority.Name == "High")
-                            {
-                                <td>
-                                    <label class="label label-danger">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</label>
-                                </td>
-                            }
-                            else if (item.TicketPriority.Name == "Medium")
-                            {
-                                <td>
-                                    <label class="label label-success">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</label>
-                                </td>
-                            }
-                            else if (item.TicketPriority.Name == "Low")
-                            {
-                                <td>
-                                    <label class="label label-success">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</label>
-                                </td>
-                            }
-
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                                <label class="label label-success">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</label>
                             </td>
+                        }
+                        else if (item.TicketPriority.Name == "Low")
+                        {
                             <td>
-                                @Html.DisplayFor(modelItem => item.Project.Name)
+                                <label class="label label-success">@Html.DisplayFor(modelItem => item.TicketPriority.Name)</label>
                             </td>
+                        }
 
-                            @*<td>*@
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Project.Name)
+                        </td>
+
+                        <td>
                             @if (item.AssignedToUser != null)
                             {
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.AssignedToUser.FullName)
-                                </td>
+                            
+                                @Html.DisplayFor(modelItem => item.AssignedToUser.FullName)
+                            
                             }
                             else
                             {
-                                <td>
-                                    @*<div class="col-sm-12">*@
-                                    @Html.ActionLink("Assign Users", "AssignTicket", "Tickets", new { id = item.Id }, new { @class = "btn btn-primary" })
-                                    @*</div>*@
-                                </td>
-                            }
-                            @*@Html.DisplayFor(modelItem => item.AssignedToUser.FullName)*@
-
-                            @*</td>*@
-
-
-
-
-                            @*@if (item.Updated != null)
+                                if(User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                                 {
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Updated)
-                                        @item.Updated.Value.ToString("MMM dd yyyy")
-                                    </td>
+                                
+                                    @Html.ActionLink("Assign Users", "AssignTicket", "Tickets", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                
                                 }
                                 else
                                 {
-                                    <td></td>
-                                }*@
-                            <td>
-                                @*@Html.ActionLink("", "AssignTicket", new { id = item.Id },new { @class="btn btn-success"})*@
-
-                                @{
-                                    var userId = User.Identity.GetUserId();
-                                    if ((User.IsInRole("Admin"))) /*|| (User.IsInRole("ProjectManager")) || (item.AssignedToUserId == userId) || item.OwnerUserId == userId)*/
-                                    {
-                                        @*<a href="@Url.Action("AssignTicket",new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-child"></i></a>*@
-                                        <a href="@Url.Action("Edit",new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></a>
-                                        <a href="@Url.Action("Details",new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-list"></i></a>
-                                        <a href="@Url.Action("Delete",new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-trash"></i></a>
-                                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id })*@
-                                        @*@Html.ActionLink("Details", "Details", new { id = item.Id })*@
-                                        @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                                    }
+                                     <p>Unassigned</p>
                                 }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+
+                            }
+
+                        </td>
+
+                        <td>
+                            
+
+                            @{
+                                var userId = User.Identity.GetUserId();
+                                if ((User.IsInRole("Admin"))) 
+                                {
+                                    @*<a href="@Url.Action("AssignTicket",new { id = item.Id })" class="btn btn-xs btn-info"><i class="fa fa-child"></i></a>*@
+                                    <a href="@Url.Action("Edit",new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" title="Edit Ticket"><i class="fa fa-edit"></i></a>
+                                    <a href="@Url.Action("Details",new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" title="Ticket Detail"><i class="fa fa-list"></i></a>
+                                    <a href="@Url.Action("Delete",new { id = item.Id })" class="btn btn-xs btn-info" data-toggle="tooltip" title="Delete Ticket"><i class="fa fa-trash"></i></a>
+                                    
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-    @*</div>*@
-
-    @*</div>
-                </div>
-            </div>
-        </div>*@
+</div>
 
 
-    @section scripts{
-        <script>
-            $('#tickets').DataTable();
-        </script>
+@if ((User.IsInRole("Submitter")) || (User.IsInRole("Admin")))
 
-        <script>
-            $(document).ready(function () {
-                $('button.btn.dropdown-toggle.btn-default').hide();
-            });
-        </script>
-        <!-- Jquery DataTable Plugin Js -->
-        <script src="~/Assets/plugins/jquery-datatable/jquery.dataTables.js"></script>
-        <script src="~/Assets/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
-        @*<script src="~/Assets/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
-            <script src="~/Assets/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
-            <script src="~/Assets/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
-            <script src="~/Assets/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
-            <script src="~/Assets/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
-            <script src="~/Assets/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
-            <script src="~/Assets/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>*@
-        <!-- Custom Js -->
-        @*<script>
-                $(function () {
-                    $('.js-basic-example').DataTable({
-                        responsive: true
-                    });
+{
+    <p>
+        <div style="margin-left:200px; margin-right:200px; padding-top:20px; padding-bottom:20px">
+            @Html.ActionLink("Tickets Owned By Submitter", "OwnedTickets", "Tickets", null, new { @class = "btn btn-lg btn-block btn-info" })
+        </div>
+    </p>
+}
 
-                    //Exportable table
-                    $('.js-exportable').DataTable({
-                        dom: 'Bfrtip',
-                        responsive: true,
-                        buttons: [
-                            'copy', 'csv', 'excel', 'pdf', 'print'
-                        ]
-                    });
-                });
-            </script>*@
 
-    }
+
+
+@section scripts{
+    <script>
+        $('#tickets').DataTable();
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('button.btn.dropdown-toggle.btn-default').hide();
+        });
+    </script>
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="~/Assets/plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="~/Assets/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+   
+}
